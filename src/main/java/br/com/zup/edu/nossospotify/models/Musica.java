@@ -1,11 +1,21 @@
-package br.com.zup.edu.nossospotify.musica;
+package br.com.zup.edu.nossospotify.models;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
 @Entity
 public class Musica {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,11 +26,7 @@ public class Musica {
     @ManyToOne(optional = false)
     private Artista dono;
 
-    @JoinTable(
-            name = "participante_musica",
-            joinColumns = @JoinColumn(name = "musica_id"),
-            inverseJoinColumns = @JoinColumn(name = "artista_id")
-    )
+    @JoinTable(name = "participante_musica", joinColumns = @JoinColumn(name = "musica_id"), inverseJoinColumns = @JoinColumn(name = "artista_id"))
     @ManyToMany
     private Set<Artista> participantes = new HashSet<>();
 
@@ -36,8 +42,7 @@ public class Musica {
      * @deprecated construtor para uso exclusivo do Hibernate
      */
     @Deprecated
-    public Musica() {
-    }
+    public Musica() {}
 
     public Long getId() {
         return id;
@@ -53,4 +58,5 @@ public class Musica {
     public void adicionar(Album album) {
         this.album = album;
     }
+
 }

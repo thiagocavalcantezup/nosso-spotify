@@ -1,8 +1,9 @@
-package br.com.zup.edu.nossospotify.musica;
+package br.com.zup.edu.nossospotify.models;
 
 import javax.validation.constraints.NotBlank;
 
 public class MusicaSoloRequest {
+
     @NotBlank
     private String nome;
 
@@ -10,10 +11,9 @@ public class MusicaSoloRequest {
         this.nome = nome;
     }
 
-    public MusicaSoloRequest() {
-    }
+    public MusicaSoloRequest() {}
 
-    public Musica paraMusica(Artista dono){
+    public Musica paraMusica(Artista dono) {
 
         Musica musica = new Musica(nome, dono);
 
@@ -26,4 +26,5 @@ public class MusicaSoloRequest {
     public String getNome() {
         return nome;
     }
+
 }

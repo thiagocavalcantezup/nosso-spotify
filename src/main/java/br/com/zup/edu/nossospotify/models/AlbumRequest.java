@@ -1,8 +1,9 @@
-package br.com.zup.edu.nossospotify.musica;
+package br.com.zup.edu.nossospotify.models;
 
 import javax.validation.constraints.NotBlank;
 
 public class AlbumRequest {
+
     @NotBlank
     private String nome;
 
@@ -10,14 +11,14 @@ public class AlbumRequest {
         this.nome = nome;
     }
 
-    public Album paraAlbum(Artista dono){
-        return new Album(nome,dono);
+    public Album paraAlbum(Artista dono) {
+        return new Album(nome, dono);
     }
 
-    public AlbumRequest() {
-    }
+    public AlbumRequest() {}
 
     public String getNome() {
         return nome;
     }
+
 }
