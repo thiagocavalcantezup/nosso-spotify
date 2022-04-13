@@ -2,7 +2,7 @@ package br.com.zup.edu.nossospotify.models;
 
 import javax.validation.constraints.NotBlank;
 
-public class ArtistaRequest {
+public class ArtistaDTO {
 
     @NotBlank
     private String nome;
@@ -13,15 +13,15 @@ public class ArtistaRequest {
     @NotBlank
     private String estado;
 
-    public ArtistaRequest(String nome, String cidade, String estado) {
+    public ArtistaDTO() {}
+
+    public ArtistaDTO(String nome, String cidade, String estado) {
         this.nome = nome;
         this.cidade = cidade;
         this.estado = estado;
     }
 
-    public ArtistaRequest() {}
-
-    public Artista paraArtista() {
+    public Artista toModel() {
         return new Artista(nome, cidade, estado);
     }
 

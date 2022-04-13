@@ -2,20 +2,20 @@ package br.com.zup.edu.nossospotify.models;
 
 import javax.validation.constraints.NotBlank;
 
-public class AlbumRequest {
+public class AlbumDTO {
 
     @NotBlank
     private String nome;
 
-    public AlbumRequest(String nome) {
+    public AlbumDTO() {}
+
+    public AlbumDTO(String nome) {
         this.nome = nome;
     }
 
-    public Album paraAlbum(Artista dono) {
+    public Album toModel(Artista dono) {
         return new Album(nome, dono);
     }
-
-    public AlbumRequest() {}
 
     public String getNome() {
         return nome;

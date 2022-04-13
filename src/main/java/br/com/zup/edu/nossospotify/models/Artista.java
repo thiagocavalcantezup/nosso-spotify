@@ -10,8 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "artistas")
 public class Artista {
 
     @Id
@@ -36,17 +38,17 @@ public class Artista {
     @OneToMany(mappedBy = "dono")
     private Set<Musica> musicas = new HashSet<>();
 
+    /**
+     * @deprecated Construtor de uso exclusivo do Hibernate
+     */
+    @Deprecated
+    public Artista() {}
+
     public Artista(String nome, String cidade, String estado) {
         this.nome = nome;
         this.cidade = cidade;
         this.estado = estado;
     }
-
-    /**
-     * @deprecated construtor para uso exclusivo do Hibernate
-     */
-    @Deprecated
-    public Artista() {}
 
     public Long getId() {
         return this.id;

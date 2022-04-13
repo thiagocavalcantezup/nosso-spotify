@@ -12,8 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "musicas")
 public class Musica {
 
     @Id
@@ -26,37 +28,35 @@ public class Musica {
     @ManyToOne(optional = false)
     private Artista dono;
 
-    @JoinTable(name = "participante_musica", joinColumns = @JoinColumn(name = "musica_id"), inverseJoinColumns = @JoinColumn(name = "artista_id"))
     @ManyToMany
+    @JoinTable(name = "participante_musica", joinColumns = @JoinColumn(name = "musica_id"), inverseJoinColumns = @JoinColumn(name = "artista_id"))
     private Set<Artista> participantes = new HashSet<>();
 
     @ManyToOne
     private Album album;
+
+    /**
+     * @deprecated Construtor de uso exclusivo do Hibernate
+     */
+    @Deprecated
+    public Musica() {}
 
     public Musica(String nome, Artista dono) {
         this.nome = nome;
         this.dono = dono;
     }
 
-    /**
-     * @deprecated construtor para uso exclusivo do Hibernate
-     */
-    @Deprecated
-    public Musica() {}
-
-    public Long getId() {
-        return id;
-    }
-
     public void adicionar(Set<Artista> artistasParticipantes) {
-
         this.participantes.addAll(artistasParticipantes);
-
         artistasParticipantes.forEach(artista -> artista.participou(this));
     }
 
     public void adicionar(Album album) {
         this.album = album;
+    }
+
+    public Long getId() {
+        return id;
     }
 
 }
