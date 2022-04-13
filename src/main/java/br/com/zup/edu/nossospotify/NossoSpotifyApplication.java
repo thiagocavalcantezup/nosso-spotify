@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class NossoSpotifyApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(NossoSpotifyApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(NossoSpotifyApplication.class, args);
+    }
 
 }
