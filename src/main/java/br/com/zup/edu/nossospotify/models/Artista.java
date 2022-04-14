@@ -68,4 +68,8 @@ public class Artista {
         return participacoes;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
 }
