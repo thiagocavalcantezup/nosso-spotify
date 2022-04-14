@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -23,7 +22,6 @@ import br.com.zup.edu.nossospotify.repositories.AlbumRepository;
 import br.com.zup.edu.nossospotify.repositories.ArtistaRepository;
 
 @RestController
-@RequestMapping(ArtistaController.BASE_URI + "/{artistaId}" + AlbumController.BASE_URI)
 public class AlbumController {
 
     public final static String BASE_URI = "/albuns";
@@ -37,7 +35,7 @@ public class AlbumController {
     }
 
     @Transactional
-    @PostMapping
+    @PostMapping(ArtistaController.BASE_URI + "/{artistaId}" + BASE_URI)
     public ResponseEntity<?> cadastrar(@PathVariable Long artistaId,
                                        @RequestBody @Valid AlbumDTO albumDTO,
                                        UriComponentsBuilder ucb) {
@@ -61,7 +59,7 @@ public class AlbumController {
     }
 
     @Transactional
-    @DeleteMapping("/{id}")
+    @DeleteMapping(BASE_URI + "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         Album album = albumRepository.findById(id)
                                      .orElseThrow(
