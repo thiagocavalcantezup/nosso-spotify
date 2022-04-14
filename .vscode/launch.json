@@ -1,0 +1,15 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-NossoSpotifyApplication<nosso-spotify>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "br.com.zup.edu.nossospotify.NossoSpotifyApplication",
+      "projectName": "nosso-spotify",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
