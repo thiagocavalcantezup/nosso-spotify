@@ -2,6 +2,7 @@ package br.com.zup.edu.nossospotify.controllers;
 
 import java.net.URI;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ public class ArtistaController {
         this.artistaRepository = artistaRepository;
     }
 
+    @Transactional
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody @Valid ArtistaDTO artistaDTO,
                                        UriComponentsBuilder ucb) {

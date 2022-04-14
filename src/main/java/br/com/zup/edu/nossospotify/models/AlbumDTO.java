@@ -13,8 +13,11 @@ public class AlbumDTO {
         this.nome = nome;
     }
 
-    public Album toModel(Artista dono) {
-        return new Album(nome, dono);
+    public Album toModel(Artista artista) {
+        Album album = new Album(nome);
+        artista.adicionar(album);
+
+        return album;
     }
 
     public String getNome() {

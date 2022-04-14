@@ -2,6 +2,7 @@ package br.com.zup.edu.nossospotify.controllers;
 
 import java.net.URI;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,7 @@ public class AlbumController {
         this.artistaRepository = artistaRepository;
     }
 
+    @Transactional
     @PostMapping
     public ResponseEntity<?> cadastrar(@PathVariable Long artistaId,
                                        @RequestBody @Valid AlbumDTO albumDTO,
@@ -46,7 +48,9 @@ public class AlbumController {
                                                )
                                            );
 
-        Album album = albumRepository.save(albumDTO.toModel(artista));
+        Album album = albumDTO.toModel(artista);
+        album = albumRepository.save(album);
+        artistaRepository.save(artista);
 
         URI location = ucb.path(ArtistaController.BASE_URI + "/{artistaId}" + BASE_URI + "/{id}")
                           .buildAndExpand(artistaId, album.getId())

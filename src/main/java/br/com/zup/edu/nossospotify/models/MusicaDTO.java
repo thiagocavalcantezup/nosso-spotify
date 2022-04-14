@@ -13,9 +13,9 @@ public class MusicaDTO {
         this.nome = nome;
     }
 
-    public Musica toModel(Artista dono) {
-        Musica musica = new Musica(nome, dono);
-        dono.adicionar(musica);
+    public Musica toModel(Artista artista) {
+        Musica musica = new Musica(nome);
+        artista.adicionar(musica);
 
         return musica;
     }

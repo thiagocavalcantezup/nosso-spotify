@@ -47,7 +47,9 @@ public class MusicaController {
                                                )
                                            );
 
-        Musica musica = musicaRepository.save(musicaDTO.toModel(artista));
+        Musica musica = musicaDTO.toModel(artista);
+        musica = musicaRepository.save(musica);
+        artistaRepository.save(artista);
 
         URI location = ucb.path(ArtistaController.BASE_URI + "/{artistaId}" + BASE_URI + "/{id}")
                           .buildAndExpand(artistaId, musica.getId())

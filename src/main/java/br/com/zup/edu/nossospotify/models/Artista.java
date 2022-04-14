@@ -50,20 +50,22 @@ public class Artista {
         this.estado = estado;
     }
 
-    public Long getId() {
-        return this.id;
-    }
-
-    public void participou(Musica musica) {
-        this.participacoes.add(musica);
-    }
-
     public void adicionar(Musica musica) {
+        musica.setDono(this);
         this.musicas.add(musica);
     }
 
     public void adicionar(Album album) {
+        album.setDono(this);
         this.albuns.add(album);
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public Set<Musica> getParticipacoes() {
+        return participacoes;
     }
 
 }

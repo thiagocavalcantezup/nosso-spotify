@@ -3,6 +3,7 @@ package br.com.zup.edu.nossospotify.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class Album {
     @ManyToOne(optional = false)
     private Artista dono;
 
-    @OneToMany(mappedBy = "album")
+    @OneToMany(mappedBy = "album", cascade = CascadeType.REMOVE)
     private Set<Musica> musicas = new HashSet<>();
 
     /**
@@ -35,13 +36,21 @@ public class Album {
     @Deprecated
     public Album() {}
 
-    public Album(String nome, Artista dono) {
+    public Album(String nome) {
         this.nome = nome;
-        this.dono = dono;
+    }
+
+    public void adicionar(Musica musica) {
+        musica.setAlbum(this);
+        this.musicas.add(musica);
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setDono(Artista dono) {
+        this.dono = dono;
     }
 
 }

@@ -29,7 +29,7 @@ public class Musica {
     private Artista dono;
 
     @ManyToMany
-    @JoinTable(name = "participante_musica", joinColumns = @JoinColumn(name = "musica_id"), inverseJoinColumns = @JoinColumn(name = "artista_id"))
+    @JoinTable(name = "musica_participante", joinColumns = @JoinColumn(name = "musica_id"), inverseJoinColumns = @JoinColumn(name = "artista_id"))
     private Set<Artista> participantes = new HashSet<>();
 
     @ManyToOne
@@ -41,22 +41,30 @@ public class Musica {
     @Deprecated
     public Musica() {}
 
-    public Musica(String nome, Artista dono) {
+    public Musica(String nome) {
         this.nome = nome;
-        this.dono = dono;
     }
 
     public void adicionar(Set<Artista> artistasParticipantes) {
+        artistasParticipantes.forEach(artista -> artista.getParticipacoes().add(this));
         this.participantes.addAll(artistasParticipantes);
-        artistasParticipantes.forEach(artista -> artista.participou(this));
     }
 
-    public void adicionar(Album album) {
-        this.album = album;
+    public void adicionar(Artista artistaParticipante) {
+        artistaParticipante.getParticipacoes().add(this);
+        this.participantes.add(artistaParticipante);
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setDono(Artista dono) {
+        this.dono = dono;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
     }
 
 }
