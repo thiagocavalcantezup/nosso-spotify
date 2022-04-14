@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,6 +58,22 @@ public class AlbumController {
                           .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @Transactional
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        Album album = albumRepository.findById(id)
+                                     .orElseThrow(
+                                         () -> new ResponseStatusException(
+                                             HttpStatus.NOT_FOUND,
+                                             "Não existe um album com o id informado."
+                                         )
+                                     );
+
+        albumRepository.delete(album);
+
+        return ResponseEntity.noContent().build();
     }
 
 }
