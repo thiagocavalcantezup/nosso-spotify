@@ -72,4 +72,8 @@ public class Artista {
         this.nome = nome;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
 }

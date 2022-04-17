@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,11 +18,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.zup.edu.nossospotify.models.Artista;
 import br.com.zup.edu.nossospotify.models.Musica;
 import br.com.zup.edu.nossospotify.models.MusicaDTO;
+import br.com.zup.edu.nossospotify.models.MusicaResponseDTO;
 import br.com.zup.edu.nossospotify.repositories.ArtistaRepository;
 import br.com.zup.edu.nossospotify.repositories.MusicaRepository;
 
 @RestController
-@RequestMapping(ArtistaController.BASE_URI + "/{artistaId}" + MusicaController.BASE_URI)
+@RequestMapping
 public class MusicaController {
 
     public final static String BASE_URI = "/musicas";
@@ -35,7 +37,7 @@ public class MusicaController {
         this.artistaRepository = artistaRepository;
     }
 
-    @PostMapping
+    @PostMapping(ArtistaController.BASE_URI + "/{artistaId}" + BASE_URI)
     public ResponseEntity<?> cadastrar(@PathVariable Long artistaId,
                                        @RequestBody @Valid MusicaDTO musicaDTO,
                                        UriComponentsBuilder ucb) {
@@ -57,6 +59,19 @@ public class MusicaController {
 
         return ResponseEntity.created(location).build();
 
+    }
+
+    @GetMapping(BASE_URI + "/{id}")
+    public ResponseEntity<MusicaResponseDTO> show(@PathVariable Long id) {
+        Musica musica = musicaRepository.findById(id)
+                                        .orElseThrow(
+                                            () -> new ResponseStatusException(
+                                                HttpStatus.NOT_FOUND,
+                                                "Não existe uma música com o id informado."
+                                            )
+                                        );
+
+        return ResponseEntity.ok(new MusicaResponseDTO(musica));
     }
 
 }

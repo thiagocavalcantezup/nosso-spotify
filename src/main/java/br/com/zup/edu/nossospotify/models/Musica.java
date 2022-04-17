@@ -67,4 +67,12 @@ public class Musica {
         this.album = album;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public Artista getDono() {
+        return dono;
+    }
+
 }
