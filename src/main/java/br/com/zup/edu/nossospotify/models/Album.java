@@ -49,6 +49,10 @@ public class Album {
         return id;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
     public void setDono(Artista dono) {
         this.dono = dono;
     }

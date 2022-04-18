@@ -75,4 +75,8 @@ public class Musica {
         return dono;
     }
 
+    public Album getAlbum() {
+        return album;
+    }
+
 }

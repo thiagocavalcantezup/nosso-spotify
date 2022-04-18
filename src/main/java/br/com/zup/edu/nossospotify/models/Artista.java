@@ -76,4 +76,12 @@ public class Artista {
         return nome;
     }
 
+    public Set<Album> getAlbuns() {
+        return albuns;
+    }
+
+    public Set<Musica> getMusicas() {
+        return musicas;
+    }
+
 }

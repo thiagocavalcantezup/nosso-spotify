@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.zup.edu.nossospotify.models.Artista;
 import br.com.zup.edu.nossospotify.models.ArtistaDTO;
 import br.com.zup.edu.nossospotify.models.ArtistaPatchDTO;
+import br.com.zup.edu.nossospotify.models.ArtistaResponseDTO;
 import br.com.zup.edu.nossospotify.repositories.ArtistaRepository;
 
 @RestController
@@ -60,6 +62,19 @@ public class ArtistaController {
         artistaRepository.save(artista);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ArtistaResponseDTO> show(@PathVariable Long id) {
+        Artista artista = artistaRepository.findById(id)
+                                           .orElseThrow(
+                                               () -> new ResponseStatusException(
+                                                   HttpStatus.NOT_FOUND,
+                                                   "Não existe um artista com o id informado."
+                                               )
+                                           );
+
+        return ResponseEntity.ok(new ArtistaResponseDTO(artista));
     }
 
 }
