@@ -66,7 +66,7 @@ public class ArtistaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ArtistaResponseDTO> show(@PathVariable Long id) {
-        Artista artista = artistaRepository.findById(id)
+        Artista artista = artistaRepository.findWithAlbunsAndMusicasById(id)
                                            .orElseThrow(
                                                () -> new ResponseStatusException(
                                                    HttpStatus.NOT_FOUND,
