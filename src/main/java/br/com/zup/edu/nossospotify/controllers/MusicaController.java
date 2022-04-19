@@ -2,6 +2,7 @@ package br.com.zup.edu.nossospotify.controllers;
 
 import java.net.URI;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -15,10 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.zup.edu.nossospotify.models.Album;
+import br.com.zup.edu.nossospotify.models.AlbumMusicaDTO;
 import br.com.zup.edu.nossospotify.models.Artista;
 import br.com.zup.edu.nossospotify.models.Musica;
 import br.com.zup.edu.nossospotify.models.MusicaDTO;
 import br.com.zup.edu.nossospotify.models.MusicaResponseDTO;
+import br.com.zup.edu.nossospotify.repositories.AlbumRepository;
 import br.com.zup.edu.nossospotify.repositories.ArtistaRepository;
 import br.com.zup.edu.nossospotify.repositories.MusicaRepository;
 
@@ -30,11 +34,13 @@ public class MusicaController {
 
     private final MusicaRepository musicaRepository;
     private final ArtistaRepository artistaRepository;
+    private final AlbumRepository albumRepository;
 
-    public MusicaController(MusicaRepository musicaRepository,
-                            ArtistaRepository artistaRepository) {
+    public MusicaController(MusicaRepository musicaRepository, ArtistaRepository artistaRepository,
+                            AlbumRepository albumRepository) {
         this.musicaRepository = musicaRepository;
         this.artistaRepository = artistaRepository;
+        this.albumRepository = albumRepository;
     }
 
     @PostMapping(ArtistaController.BASE_URI + "/{artistaId}" + BASE_URI)
@@ -72,6 +78,32 @@ public class MusicaController {
                                         );
 
         return ResponseEntity.ok(new MusicaResponseDTO(musica));
+    }
+
+    @Transactional
+    @PostMapping(AlbumController.BASE_URI + "/{albumId}" + BASE_URI)
+    public ResponseEntity<Void> albumCreate(@PathVariable Long albumId,
+                                            @RequestBody @Valid AlbumMusicaDTO albumMusicaDTO,
+                                            UriComponentsBuilder ucb) {
+        Album album = albumRepository.findById(albumId)
+                                     .orElseThrow(
+                                         () -> new ResponseStatusException(
+                                             HttpStatus.NOT_FOUND,
+                                             "Não existe um álbum com o id informado."
+                                         )
+                                     );
+
+        Musica musica = albumMusicaDTO.toModel(artistaRepository);
+        album.adicionar(musica);
+
+        albumRepository.save(album);
+
+        URI location = ucb.path(AlbumController.BASE_URI + "/{albumId}" + BASE_URI + "/{id}")
+                          .buildAndExpand(albumId, musica.getId())
+                          .toUri();
+
+        return ResponseEntity.created(location).build();
+
     }
 
 }

@@ -3,6 +3,7 @@ package br.com.zup.edu.nossospotify.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,7 +36,7 @@ public class Artista {
     @OneToMany(mappedBy = "dono")
     private Set<Album> albuns = new HashSet<>();
 
-    @OneToMany(mappedBy = "dono")
+    @OneToMany(mappedBy = "dono", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Musica> musicas = new HashSet<>();
 
     /**
