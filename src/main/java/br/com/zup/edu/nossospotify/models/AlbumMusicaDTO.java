@@ -37,8 +37,6 @@ public class AlbumMusicaDTO {
         Musica musica = new Musica(nome);
         artista.adicionar(musica);
 
-        artistaRepository.flush();
-
         return musica;
     }
 

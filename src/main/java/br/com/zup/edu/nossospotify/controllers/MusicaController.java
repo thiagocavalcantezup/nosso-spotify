@@ -96,7 +96,7 @@ public class MusicaController {
         Musica musica = albumMusicaDTO.toModel(artistaRepository);
         album.adicionar(musica);
 
-        albumRepository.save(album);
+        albumRepository.flush();
 
         URI location = ucb.path(AlbumController.BASE_URI + "/{albumId}" + BASE_URI + "/{id}")
                           .buildAndExpand(albumId, musica.getId())
