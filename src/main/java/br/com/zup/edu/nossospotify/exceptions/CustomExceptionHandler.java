@@ -97,6 +97,22 @@ public class CustomExceptionHandler {
         return ResponseEntity.status(httpStatus).body(erroPadronizado);
     }
 
+    @ExceptionHandler(ParticipanteNaoEncontradoException.class)
+    public ResponseEntity<ErroPadronizado> handleParticipanteNaoEncontrado(ParticipanteNaoEncontradoException ex) {
+        HttpStatus httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+        Integer codigoHttp = httpStatus.value();
+        String mensagemHttp = httpStatus.getReasonPhrase();
+
+        String mensagemGeral = "Houve um problema com a sua requisição.";
+
+        ErroPadronizado erroPadronizado = new ErroPadronizado(
+            codigoHttp, mensagemHttp, mensagemGeral
+        );
+        erroPadronizado.adicionarErro(ex.getMessage());
+
+        return ResponseEntity.status(httpStatus).body(erroPadronizado);
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseBody

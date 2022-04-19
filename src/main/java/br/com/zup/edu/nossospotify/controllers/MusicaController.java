@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -103,7 +104,30 @@ public class MusicaController {
                           .toUri();
 
         return ResponseEntity.created(location).build();
+    }
 
+    @Transactional
+    @DeleteMapping(BASE_URI + "/{musicaId}" + ArtistaController.BASE_URI + "/{artistaId}")
+    public ResponseEntity<Void> deleteParticipante(@PathVariable Long musicaId,
+                                                   @PathVariable Long artistaId) {
+        Musica musica = musicaRepository.findById(musicaId)
+                                        .orElseThrow(
+                                            () -> new ResponseStatusException(
+                                                HttpStatus.NOT_FOUND,
+                                                "Não existe uma música com o id informado."
+                                            )
+                                        );
+        Artista participante = artistaRepository.findById(artistaId)
+                                                .orElseThrow(
+                                                    () -> new ResponseStatusException(
+                                                        HttpStatus.NOT_FOUND,
+                                                        "Não existe um artista com o id informado."
+                                                    )
+                                                );
+
+        musica.remover(participante);
+
+        return ResponseEntity.noContent().build();
     }
 
 }

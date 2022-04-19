@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import br.com.zup.edu.nossospotify.exceptions.ParticipanteNaoEncontradoException;
+
 @Entity
 @Table(name = "musicas")
 public class Musica {
@@ -53,6 +55,15 @@ public class Musica {
     public void adicionar(Artista artistaParticipante) {
         artistaParticipante.getParticipacoes().add(this);
         this.participantes.add(artistaParticipante);
+    }
+
+    public void remover(Artista artistaParticipante) {
+        if (!this.participantes.remove(artistaParticipante)) {
+            throw new ParticipanteNaoEncontradoException(
+                "Não existe um participante com o id fornecido."
+            );
+        }
+        artistaParticipante.getParticipacoes().remove(this);
     }
 
     public Long getId() {
