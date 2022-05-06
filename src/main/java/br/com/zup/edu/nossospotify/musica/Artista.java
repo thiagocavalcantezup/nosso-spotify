@@ -46,6 +46,10 @@ public class Artista {
         return this.id;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
     public void participou(Musica musica) {
         this.participacoes.add(musica);
     }

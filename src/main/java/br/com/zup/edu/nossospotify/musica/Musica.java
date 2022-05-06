@@ -43,6 +43,18 @@ public class Musica {
         return id;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public Artista getDono() {
+        return dono;
+    }
+
+    public Set<Artista> getParticipantes() {
+        return participantes;
+    }
+
     public void adicionar(Set<Artista> artistasParticipantes) {
 
         this.participantes.addAll(artistasParticipantes);
