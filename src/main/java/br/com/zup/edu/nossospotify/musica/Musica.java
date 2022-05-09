@@ -2,6 +2,7 @@ package br.com.zup.edu.nossospotify.musica;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -21,8 +22,8 @@ public class Musica {
             joinColumns = @JoinColumn(name = "musica_id"),
             inverseJoinColumns = @JoinColumn(name = "artista_id")
     )
-    @ManyToMany
-    private Set<Artista> participantes = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.MERGE)
+    private Set<Artista> participantes = new LinkedHashSet<>();
 
     @ManyToOne
     private Album album;
